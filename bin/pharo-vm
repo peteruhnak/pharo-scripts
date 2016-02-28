@@ -1,0 +1,28 @@
+#!/bin/bash
+
+VM_SPUR="/opt/pharo-vm/spur/pharo"
+VM_COG="/opt/pharo-vm/cog/pharo"
+OPTIONS=
+VM="$VM_SPUR"
+
+get_image() {
+	local image=
+	while [ $# -gt 0 ]; do
+		if [ "${1: -6}" = ".image" ]; then
+			image="$1"
+		fi
+		shift
+	done
+	echo "$image"
+}
+
+IMAGE=$(get_image "$@")
+
+if [ -n "$IMAGE" ] && [ -f "$IMAGE" ]; then
+	if [ "$(head -c 2 "$IMAGE")" = "$(printf "\x69\x19")" ]; then
+		VM="$VM_COG"
+		OPTIONS="--textenc UTF-8"
+	fi
+fi
+
+"$VM" $OPTIONS "$@"

@@ -1,0 +1,83 @@
+StartupPreferencesLoader default executeAtomicItems: {
+	StartupAction
+		name: 'add dynacase configuration and load it.'
+		code: [
+			true & (SmalltalkImage current shortImageName includesSubstring: 'DynaCASE') ifTrue: [
+				(UIManager default proceed: 'Load DynaCASE via gitfiletree?') ifTrue: [
+					[
+						"GitFileTree"
+						Gofer new
+							url: 'http://smalltalkhub.com/mc/Pharo/MetaRepoForPharo50/main';
+							configurationOf: 'GitFileTree';
+							loadDevelopment.
+
+						"DynaCASE MetaModel"
+						Metacello new
+							baseline: 'DynaCASEModel';
+							repository: 'gitfiletree:///home/peter/prog/dynacase/git/dynacase-model/repository';
+							lock.
+
+						"DynaCASE"
+						Metacello new
+							baseline: 'DynaCASE';
+							repository: 'gitfiletree:///home/peter/prog/dynacase/git/dynacase/repository';
+							lock.
+							
+						Metacello new
+							baseline: 'DynaCASE';
+							repository: 'gitfiletree:///home/peter/prog/dynacase/git/dynacase/repository';
+							lock.
+
+						"BORM Model"
+						Metacello new
+							baseline: 'BormModel';
+							repository: 'gitfiletree:///home/peter/prog/dynacase/git/borm-model/repository';
+							lock.
+							
+						"BORM Persistence"
+						Metacello new
+							baseline: 'BormModel';
+							repository: 'gitfiletree:///home/peter/prog/dynacase/git/borm-model/repository';
+							lock.
+
+						"FSM Editor"
+						Metacello new
+							baseline: 'FsmEditor';
+							repository: 'gitfiletree:///home/peter/prog/dynacase/git/fsm-editor/repository';
+							onConflict: [ :ex | ex allow ];
+							load.
+
+						"BORM Editor"
+						Metacello new
+							baseline: 'BormEditor';
+							repository: 'gitfiletree:///home/peter/prog/dynacase/git/borm-editor/repository';
+							onConflict: [ :ex | ex allow ];
+							load.
+								
+						"UML Class Diagram Editor"
+						Metacello new
+							baseline: 'DCUmlClassEditor';
+							repository: 'gitfiletree:///home/peter/prog/dynacase/git/class-editor/repository';
+							onConflict: [ :ex | ex allow ];
+							load.
+						
+						"=== Roassal presentations ==="
+
+						Gofer new 
+							smalltalkhubUser: 'Moose' project: 'GToolkit';
+							package: 'GT-InspectorExtensions-CoreRoassal';
+							load.
+
+						Gofer new 
+							smalltalkhubUser: 'Moose' project: 'Glamour';
+							package: 'Glamour-Tools';
+							package: 'Glamour-Roassal2-Presentations';
+							load.
+							
+						UIManager default message: 'Loading complete'
+					] fork
+				]
+			].
+		]
+		runOnce: true.
+}

@@ -1,0 +1,85 @@
+#!/bin/bash
+set -e
+
+echoerr() { echo "$@" 1>&2; }
+
+readonly BASELINE=50
+VERSION=$1
+
+if [ -n "$1" ]; then
+	if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+		echo "get-image [<image-version>]
+			Download <image-version> image, or the latest"
+		exit 0
+	fi
+
+	re='^[0-9]+$'
+	if ! [[ "$VERSION" =~ $re ]]; then
+		echoerr "Version "$VERSION" is not a number"
+		exit 1
+	fi
+	if [ $VERSION -ge 1000 ] && [ $VERSION -le 10000 ]; then
+		echoerr ""$VERSION" is not a valid version."
+		exit 1
+	fi
+	if [ $VERSION -lt 1000 ]; then
+		VERSION="$BASELINE$(printf %03d $VERSION)"
+	fi
+fi
+
+image_version() {
+	if [ -z $VERSION ]; then
+		echo "$BASELINE/latest"
+	elif [ $VERSION -le 50496 ] && [ $VERSION -ge 50000 ]; then
+		echo "50-preSpur/$VERSION"
+	else
+		echo "${VERSION:0:2}/$VERSION"
+	fi
+}
+
+# RELEASE VERSION ===============================================================
+download_to_cache() {
+	local IMAGE_URL="$1"
+	local CACHE_PATH="$2"
+	local CACHE_DIR=$(dirname "$CACHE_PATH")
+
+	echoerr "Downloading $version image:"
+	echoerr "    $IMAGE_URL"
+
+	if [ ! -e "$CACHE_DIR" ]; then
+		mkdir -p "$CACHE_DIR"
+	fi
+
+	curl --silent --location --compressed --output "$CACHE_PATH" "$IMAGE_URL"
+}
+
+
+download() {
+	local version=$1
+	local name="${version##*/}"
+	local CACHE_PATH="$HOME/.local/pharo-image-cache/${version}.zip"
+	local IMAGE_URL="http://files.pharo.org/image/${version}.zip"
+
+	# latest should always be downloaded anew
+	if [ ! -f $CACHE_PATH ] || [ $name = 'latest' ]; then
+		download_to_cache $IMAGE_URL $CACHE_PATH
+	else
+		echoerr "Using cached $version image"
+		echoerr "    $CACHE_PATH"
+	fi
+
+	local TMP_DIR=`mktemp -d image.XXXXXX`
+	cp $CACHE_PATH $TMP_DIR/image.zip
+
+	unzip -q $TMP_DIR/image.zip -d $TMP_DIR
+	rm -rf image image.zip
+
+	mv -i $TMP_DIR/*.image "${name}.image"
+	mv -i $TMP_DIR/*.changes "${name}.changes"
+
+	rm -r $TMP_DIR >> /dev/null
+
+	echo "${name}.image"
+}
+
+download $(image_version)

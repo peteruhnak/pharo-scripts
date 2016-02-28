@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# https://gist.github.com/peteruhnak/142a6b30494354df21d8
+
+set -e
+
+if [ -z "$1" ]; then
+	echo "Missing script file"
+	exit 1
+fi
+
+readonly PROGDIR=$(readlink -m $(dirname $0))
+readonly SCRIPT=$(readlink -f $1)
+readonly VM="pharo-vm"
+readonly IMAGE="$PROGDIR/pharo-sh/latest.image"
+
+$VM --nodisplay $IMAGE st --quit $SCRIPT
