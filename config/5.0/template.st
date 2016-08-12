@@ -2,5 +2,5 @@ StartupPreferencesLoader default executeAtomicItems: {
 	StartupAction
 		name: 'Template'
 		code: [		]
-		runOnce: true.	
+		runOnce: true.
 }
