@@ -1,1 +1,234 @@
-QACActionManager {	#iconLibrary : QACIconLibrary {		#customIcons : { }	},	#rootFolder : QACActionFolder {		#id : UUID [ 'ce503d040e05495d98acffa883110a74' ],		#iconID : '',		#actionItems : SortedCollection [			QACActionFolder {				#id : UUID [ 'caffb579465c43ea85baf71db66577de' ],				#name : 'Convenience',				#iconID : '',				#actionItems : SortedCollection [					QACAction {						#id : UUID [ '8844ac00b2f3458fbd6bbee0712728d9' ],						#name : 'Common tools',						#iconID : '',						#expression : 'GTPlayground openContents:\r\'(CatalogProvider projectNamed: #GitFileTree) installStableVersion.\r(CatalogProvider projectNamed: #Spy2) installStableVersion.\r\'.'					}				]			},			QACActionFolder {				#id : UUID [ '07ccb82a406a4119b3c0befb7cdeca29' ],				#name : 'Debugging',				#iconID : '',				#actionItems : SortedCollection [					QACAction {						#id : UUID [ 'b8461fa858134c4583541ce545426989' ],						#name : 'Enable Halt once',						#iconID : '',						#expression : 'Halt enableHaltOnce'					}				]			},			QACActionFolder {				#id : UUID [ 'acf168b0421a41788b50c96a8435784d' ],				#name : 'Extensions',				#iconID : '',				#actionItems : SortedCollection [					QACAction {						#id : UUID [ '2a2a06bd2c24496b9680412b33dbc215' ],						#name : 'Zoomable Roassal',						#iconID : '',						#expression : 'RTAbstractContextInteraction subclass: #RTZoomableViewContextInteraction\r\tinstanceVariableNames: \'\'\r\tclassVariableNames: \'\'\r\tpackage: \'Roassal2GT-Glamour-Roassal-Interaction\'.\r\r#RTZoomableViewContextInteraction asClass compile: \'initializeElement: aView\r\taView @ RTZoomableView\' classified: \'hooks\'.\r\t\rRTInteractiveViewContext compile: \'interactionsToBeRegistered\r\t^ Array with: RTSelectableElementsContextInteraction with: RTResizeableViewContextInteraction with: RTZoomableViewContextInteraction\' classified: \'hooks\''					}				]			},			QACAction {				#id : UUID [ '800b969e98874a5587da9b53bbe976be' ],				#name : 'Open .config/pharo',				#iconID : '',				#expression : ''			},			QACActionFolder {				#id : UUID [ '70e251b8d3be48609cda4d3b69f927d0' ],				#name : 'Opening folders',				#iconID : '',				#actionItems : SortedCollection [					QACAction {						#id : UUID [ '0bd08f7b18d147deb23f8323cbcedffd' ],						#name : 'Inspect directory',						#iconID : '',						#expression : '(UIManager default chooseDirectory) inspect'					},					QACAction {						#id : UUID [ '371076ddfc2342f7a3bf57acf493f4c8' ],						#name : 'Inspect file',						#iconID : '',						#expression : '(UIManager default chooseFileMatching: #(\'*\')) inspect'					},					QACAction {						#id : UUID [ '2f76be7a3d1b478ab1ce5980a50f8c45' ],						#name : 'open .config/pharo',						#iconID : '',						#expression : '(FileLocator preferences asFileReference / \'pharo\') inspect'					},					QACAction {						#id : UUID [ 'a059020b09754166969c675910cf22a0' ],						#name : 'open zenity playground',						#iconID : '',						#expression : '|page playground|\r(page := GTPlayPage new)\r\tsaveContent: \'(PipeableOSProcess command: \'\'zenity --file-selection\'\') output trim.\r\t\r(PipeableOSProcess command: \'\'zenity --file-selection --file-filter=\'\'\'\'XML files (xml, xmi, graphml) | *.xml *.xmi *.graphml\'\'\'\' --file-filter=\'\'\'\'All files | *\'\'\'\'\'\') output trim.\r\t\'.\r(playground := GTPlayground new)\r\topenOn: page.'					}				]			},			QACActionFolder {				#id : UUID [ 'fc75b7811ae448ff8ed7f149631ed368' ],				#name : 'QuickAccess i/e',				#iconID : '',				#actionItems : SortedCollection [					QACAction {						#id : UUID [ '4348947138d24bdfa3f051dd9084c0cf' ],						#name : 'Export',						#iconID : '',						#expression : '(FileLocator preferences asFileReference / \'pharo\' / \'5.0\' / \'quickaccess.qac\')\r\tensureDelete;\r\twriteStreamDo: [ :stream |\r\t\tstream nextPutAll: (STON toStringPretty: QACActionManager default)\r\t]'					},					QACAction {						#id : UUID [ '4b6d622d31f449e098a9261afd97ddad' ],						#name : 'Import',						#iconID : '',						#expression : '#QACActionManager asClass default\r\t\t\t\t\timport: ((FileLocator preferences asFileReference / \'pharo\' / \'5.0\' / \'quickaccess.qac\')).'					}				]			},			QACActionFolder {				#id : UUID [ 'c6eaf8d583a34fb8aac3780b917fecc4' ],				#name : 'Repositories',				#iconID : '',				#actionItems : SortedCollection [					QACAction {						#id : UUID [ '31416f4fe8e142bc8738687d51630db3' ],						#name : 'Cache QuickAccess',						#iconID : '',						#expression : '|source destination goSource goDestination sortBlock re fileBlocks files filesSorted destinationFiles|\r\"Based on Uko\'s script https://gist.github.com/Uko/6898022\"\r\r\"\rConfigurationOfQuickAccess methods select: [ :each |\r\teach sourceCode includesSubstring: \'spec repository: \'\'http://smalltalkhub.com/mc/TorstenBergmann/QuickAccess/main/\'\'\'.\r] thenDo: [ :each |\r\tConfigurationOfQuickAccess compile: (each sourceCode\r\t\tcopyReplaceAll: \'spec repository: \'\'http://smalltalkhub.com/mc/TorstenBergmann/QuickAccess/main/\'\'\'\r\t\twith: \'spec repository: \'\'/home/peter/prog/QuickAccess/repository\'\'\')\r].\r\"\r\r\"Get reference to the source repository\"\rsource := MCSmalltalkhubRepository allInstances detect: [ :each |\r\teach location includesSubstring: \'QuickAccess\'\r].\r\r\"Get reference to the target repository\"\rdestination := MCSubDirectoryRepository allInstances detect: [ :each |\r\teach location includesSubstring: \'QuickAccess/repository\'\r].\r\r\"Setup Gofer\"\rgoSource := Gofer new repository: source.\rgoDestination := Gofer new repository: destination.\r\r\"The packages obtained from Gofer are in random order... so some sorting has to be done so the git history is nicer.\"\rsortBlock := [ :x : y |\r\t(x second = y second) ifTrue: [ x fourth asNumber <= y fourth asNumber ]\r\tifFalse: [ x second < y second ].\r].\r\r\"My-Package-Author.Number\"\rre := \'^(.+)-([^-]+)\\.(\\d+)$\' asRegex.\rfileBlocks := source allVersionNames collect: [ :each | \r\tre search: each.\r\t{ \r\t\tre subexpression: 1. \"first - full string\"\r\t\tre subexpression: 2. \"second - package name\"\r\t\tre subexpression: 3. \"third - author name\"\r\t\tre subexpression: 4. \"fourth - commit name\"\r\t}\r].\rfilesSorted := fileBlocks asSortedCollection: sortBlock.\r\rfiles := (filesSorted collect: [ :x | x first ]) asArray.\r\r(goSource allResolved select: [ :resolved | files anySatisfy: [ :each |\r  resolved name = each ] ]) do: [ :each | goSource package: each packageName ].\r\rgoSource fetch. \"downloads all mcz on your computer\"\rdestinationFiles := destination allVersionNames. \"checks what files are already at destination\"\r\rfiles reject: [ :file | destinationFiles includes: file ] thenDo: [ :file |\r  goDestination version: file ]. \"selects only the mcz that are not yet at destination\"\r\rgoDestination push. \"sends everything to new repository\"'					},					QACAction {						#id : UUID [ '3f61b67d72fa493dae1309eaedd5c31b' ],						#name : 'Install GitFileTree project (OSProcess)',						#iconID : '',						#expression : '|projects ui layout|\rprojects := (FileLocator home asFileReference / \'prog\') children\r\tselect: [ :each | (each childrenMatching: \'repository\') isNotEmpty ]\r\tthenCollect: [ :each | each / \'repository\' ].\rprojects := projects sort: [ :a :b | a pathString asLowercase < b pathString asLowercase ].\r\rui := DynamicComposableModel new.\rui title: \'Install local GitFileTree project\'.\rui instantiateModels: #(projects DropListModel).\rui projects\r\titems: projects;\r\tdisplayBlock: [ :d | d parent basename ,\'/\', d basename ].\r\rlayout := SpecColumnLayout composed\r\tnewRow: [ :r | r add: #projects ] height: ComposableModel toolbarHeight;\r\tnewRow: [ :r | ].\r\t\r(ui openDialogWithSpecLayout: layout)\r\tokAction: [\r\t\t(Smalltalk hasClassNamed: #BaselineOfGitFileTree) ifFalse: [\r\t\t\t(CatalogProvider projectNamed: \'OSProcess\')\r\t\t\t\tinstallVersion: #stable.\r\t\t\t(CatalogProvider projectNamed: \'CommandShell\')\r\t\t\t\tinstallVersion: #stable.\r\t\t\t(CatalogProvider projectNamed: \'GitFileTree\')\r\t\t\t\tinstallVersion: #stable.\r\t\t].\r\t\tMetacello new\r\t\t\tbaseline: (((ui projects selectedItem childrenMatching: \'Baseline*.package\') first basename withoutPrefix: \'BaselineOf\') withoutSuffix: \'.package\');\r\t\t\trepository: \'gitfiletree://\', ui projects selectedItem pathString;\r\t\t\tload.\r\t]'					},					QACAction {						#id : UUID [ 'adf69a4e793248b2adae848f6d7b0d5d' ],						#name : 'Install GitFileTree project (OSSubprocess)',						#iconID : '',						#expression : '|projects ui layout|\rprojects := (FileLocator home asFileReference / \'prog\') children\r\tselect: [ :each | (each childrenMatching: \'repository\') isNotEmpty ]\r\tthenCollect: [ :each | each / \'repository\' ].\rprojects := projects sort: [ :a :b | a pathString asLowercase < b pathString asLowercase ].\r\rui := DynamicComposableModel new.\rui title: \'Install local GitFileTree project\'.\rui instantiateModels: #(projects DropListModel).\rui projects\r\titems: projects;\r\tdisplayBlock: [ :d | d parent basename ,\'/\', d basename ].\r\rlayout := SpecColumnLayout composed\r\tnewRow: [ :r | r add: #projects ] height: ComposableModel toolbarHeight;\r\tnewRow: [ :r | ].\r\t\r(ui openDialogWithSpecLayout: layout)\r\tokAction: [\r\t\t(Smalltalk hasClassNamed: #BaselineOfGitFileTree) ifFalse: [\r\t\t\t(CatalogProvider projectNamed: \'GitFileTree\')\r\t\t\t\tinstallVersion: #development.\r\t\t].\r\t\tMetacello new\r\t\t\tbaseline: (((ui projects selectedItem childrenMatching: \'Baseline*.package\') first basename withoutPrefix: \'BaselineOf\') withoutSuffix: \'.package\');\r\t\t\trepository: \'gitfiletree://\', ui projects selectedItem pathString;\r\t\t\tload.\r\t]'					},					QACAction {						#id : UUID [ '78f256a4cd8d4518bf0690ad5943277c' ],						#name : 'Install GitFileTree project (without GFT loading)',						#iconID : '',						#expression : '|projects ui layout|\rprojects := (FileLocator home asFileReference / \'prog\') children\r\tselect: [ :each | (each childrenMatching: \'repository\') isNotEmpty ]\r\tthenCollect: [ :each | each / \'repository\' ].\rprojects := projects sort: [ :a :b | a pathString asLowercase < b pathString asLowercase ].\r\rui := DynamicComposableModel new.\rui title: \'Install local GitFileTree project\'.\rui instantiateModels: #(projects DropListModel).\rui projects\r\titems: projects;\r\tdisplayBlock: [ :d | d parent basename ,\'/\', d basename ].\r\rlayout := SpecColumnLayout composed\r\tnewRow: [ :r | r add: #projects ] height: ComposableModel toolbarHeight;\r\tnewRow: [ :r | ].\r\t\r(ui openDialogWithSpecLayout: layout)\r\tokAction: [\r\t\tMetacello new\r\t\t\tbaseline: (((ui projects selectedItem childrenMatching: \'Baseline*.package\') first basename withoutPrefix: \'BaselineOf\') withoutSuffix: \'.package\');\r\t\t\trepository: \'gitfiletree://\', ui projects selectedItem pathString;\r\t\t\tload.\r\t]'					},					QACAction {						#id : UUID [ 'b931c0a779ea486c9cb7d25a77e4bd16' ],						#name : 'Kommit packages matching...',						#iconID : '',						#expression : '(UIManager default request: \'Package name pattern\' initialAnswer: \'*\') ifNotNil: [ :pat |\r\tKomitter openAndCommitToMonticelloWorkingCopiesFilteredBy: [ :workingCopy |\r\t\tworkingCopy package name matches: pat\r\t].\r].'					},					QACAction {						#id : UUID [ '3e2aa2e59a034df7b9abf383ffdbd698' ],						#name : 'Load OSProcess with GitFileTree',						#iconID : '',						#expression : '(Smalltalk hasClassNamed: #BaselineOfGitFileTree) ifFalse: [\r\t(CatalogProvider projectNamed: \'OSProcess\')\r\t\tinstallVersion: #stable.\r\t(CatalogProvider projectNamed: \'CommandShell\')\r\t\tinstallVersion: #stable.\r\t(CatalogProvider projectNamed: \'GitFileTree\')\r\t\tinstallVersion: #stable.\r].'					},					QACAction {						#id : UUID [ 'b811655c40d34a458efa106f2a31d4c7' ],						#name : 'Login Pharo60Inbox',						#iconID : '',						#expression : '|creds repo |\rcreds := (STON fromStream: (FileLocator preferences asFileReference / \'pharo\' / \'settings.json\') readStream) at: #smalltalkhub.\r\rrepo := (MCHttpRepository allInstances detect: [ :each | each location includesSubstring: \'Pharo60Inbox\' ]).\r\rrepo user: (creds at: #user).\rrepo password: (creds at: #password)'					},					QACAction {						#id : UUID [ '1a99a5b80e6f448783329ab1b6158e6d' ],						#name : 'Login Roassal2',						#iconID : '',						#expression : '|creds repo|\rcreds := (STON fromStream: (FileLocator preferences asFileReference / \'pharo\' / \'settings.json\') readStream) at: #smalltalkhub.\r\rrepo := (MCSmalltalkhubRepository allInstances detect: [ :each | each project = \'Roassal2\' ]).\r\rrepo user: (creds at: #user).\rrepo password: (creds at: #password)'					},					QACAction {						#id : UUID [ '2bdf67770192472a870c9daedf371715' ],						#name : 'Login STHub repo',						#iconID : '',						#expression : '|creds repo repos labels|\rcreds := (STON fromStream: (FileLocator preferences asFileReference / \'pharo\' / \'settings.json\') readStream) at: #smalltalkhub.\r\rrepos := MCSmalltalkhubRepository allInstances sorted: [ :a :b |\r\ta owner < b owner or: [ a owner = b owner and: [ a project < b project ] ]\r].\rlabels := repos collect: [ :each | each owner , \'/\', each project ].\r\rrepo := UIManager default\r\tchooseFrom: labels\r\tvalues: repos.\r\rrepo ifNotNil: [\r\trepo user: (creds at: #user).\r\trepo password: (creds at: #password)\r]'					},					QACAction {						#id : UUID [ '3adde9f276534d6b80d36a97669d5c56' ],						#name : 'Remove all unwanted repos',						#iconID : '',						#expression : '\"Nuking repos I don\'t care about, because they slow down gitfiletree repos and make a mess in Monticello Browser\r\rOf course I can always add it back by hand if the need arises.\r\"\r|group|\rgroup := MCRepositoryGroup default.\r\r\"All Moose repos\"\rgroup repositories select: [ :each |\r\t(each location includesSubstring: \'Moose\') and: [ \r\t\t(each isKindOf: MCCacheRepository) not ]\r] thenDo: [ :each |\r\tgroup removeRepository: each.\r].\r\r\"All Pharo repos\"\rgroup repositories select: [ :each |\r\t(each location includesSubstring: \'Pharo\') and: [ \r\t\t(each isKindOf: MCCacheRepository) not ]\r] thenDo: [ :each |\r\tgroup removeRepository: each\r].\r\r#(squeaksource Seaside SvenVan RoelTyper Phexample Magritte STON ShoreLine FastTable Neo ZincHTTPComponents) do: [ :str |\r\tgroup repositories select: [ :each |\r\t\t(each location includesSubstring: str) and: [ \r\t\t\t(each isKindOf: MCCacheRepository) not ]\r\t] thenDo: [ :each |\r\t\tgroup removeRepository: each\r\t].\t\r]'					}				]			},			QACActionFolder {				#id : UUID [ '03ca73e1248b4d7d8c500ba794eee59c' ],				#name : 'UI',				#iconID : '',				#actionItems : SortedCollection [					QACAction {						#id : UUID [ 'd2722fb608e6457f8cc52eeb7767c673' ],						#name : 'Colors',						#iconID : '',						#expression : '|v es|\rv := RTView new.\r\res := RTBox new\r\tsize: 150;\r\tcolor: #yourself;\r\telementsOn: (((Color class methods select: [ :each | each protocol = #defaults ] thenCollect: [ :each |\r\t\teach methodClass theNonMetaClass perform: each selector\r\t\t]) reject: #isArray) sorted: [:a :b |\r\t\t\t((0.241 * a red) + (0.691 * a green) + (0.068 * a blue)) sqrt\r\t\t\t<\r\t\t\t((0.241 * b red) + (0.691 * b green) + (0.068 * b blue)) sqrt\r\t\t\r\t\t]).\r\t\rv addAll: es.\res @ (RTLabeled new center).\r\rRTGridLayout new on: es.\r\rv inspect'					},					QACAction {						#id : UUID [ 'ad91b7c5f5314c52b634011673365fdf' ],						#name : 'Dark Theme',						#iconID : '',						#expression : 'Pharo3DarkTheme beCurrent.\r\rWorld\r\tbackgroundImage: (ImageReadWriter formFromFileNamed: ((FileLocator home asFileReference / \'Images\' / \'wp\') allFiles atRandom: (Random new seed: UUIDGenerator default makeUnixSeed)))\r\tlayout: #scaled.'					},					QACAction {						#id : UUID [ '91a2155f464c4ff0b2fb5f0ee59bc0fa' ],						#name : 'Light Theme',						#iconID : '',						#expression : 'Pharo3Theme beCurrent.\r\rWorld\r\tbackgroundImage: (ImageReadWriter formFromFileNamed: ((FileLocator home asFileReference / \'Images\' / \'wp\') allFiles atRandom: (Random new seed: UUIDGenerator default makeUnixSeed)))\r\tlayout: #scaled.'					},					QACAction {						#id : UUID [ '1692f97b3618404082ac69f00e546399' ],						#name : 'Random bing background',						#iconID : '',						#expression : '|urlbase image|\rurlbase := ((((STON fromString: ((ZnEasy\r\tget: \'https://www.bing.com/HPImageArchive.aspx?format=js&n=1\') contents)) at: #images) first) at: #urlbase).\rimage := ZnEasy getJpeg: \'https://www.bing.com\', urlbase, \'_1920x1080.jpg\'.\rWorld\r\tbackgroundImage: image\r\tlayout: #scaled.'					},					QACAction {						#id : UUID [ 'd20d0a28c4ee41fd92d0dd242b43d2ce' ],						#name : 'Random non-recent local image',						#iconID : '',						#expression : 'World\r\tbackgroundImage: (ImageReadWriter formFromFileNamed: ((FileLocator home asFileReference / \'Images\' / \'wp\') allFiles atRandom: (Random new seed: UUIDGenerator default makeUnixSeed)))\r\tlayout: #scaled.'					},					QACAction {						#id : UUID [ '16f5c66c1af345af92a306ec3c98116e' ],						#name : 'Random recent local image',						#iconID : '',						#expression : 'World\r\tbackgroundImage: (ImageReadWriter formFromFileNamed: ((FileLocator home asFileReference / \'Images\' / \'wp\' / \'2016\') allFiles atRandom: (Random new seed: UUIDGenerator default makeUnixSeed)))\r\tlayout: #scaled.'					}				]			},			QACAction {				#id : UUID [ 'd7d7c3a2034849fd833cfe60fe053e45' ],				#name : 'Unnamed action',				#iconID : '',				#expression : ''			},			QACAction {				#id : UUID [ '46a1275c545340a8b5b5f188c834e5ef' ],				#name : 'Unnamed action',				#iconID : '',				#expression : ''			}		]	}}
+QACActionManager {
+	#iconLibrary : QACIconLibrary {
+		#customIcons : { }
+	},
+	#rootFolder : QACActionFolder {
+		#id : UUID [ 'ce503d040e05495d98acffa883110a74' ],
+		#iconID : '',
+		#actionItems : SortedCollection [
+			QACActionFolder {
+				#id : UUID [ 'caffb579465c43ea85baf71db66577de' ],
+				#name : 'Convenience',
+				#iconID : '',
+				#actionItems : SortedCollection [
+					QACAction {
+						#id : UUID [ '8844ac00b2f3458fbd6bbee0712728d9' ],
+						#name : 'Common tools',
+						#iconID : '',
+						#expression : 'GTPlayground openContents:\r\'(CatalogProvider projectNamed: #GitFileTree) installStableVersion.\r(CatalogProvider projectNamed: #Spy2) installStableVersion.\r\'.'
+					}
+				]
+			},
+			QACActionFolder {
+				#id : UUID [ '07ccb82a406a4119b3c0befb7cdeca29' ],
+				#name : 'Debugging',
+				#iconID : '',
+				#actionItems : SortedCollection [
+					QACAction {
+						#id : UUID [ 'b8461fa858134c4583541ce545426989' ],
+						#name : 'Enable Halt once',
+						#iconID : '',
+						#expression : 'Halt enableHaltOnce'
+					}
+				]
+			},
+			QACActionFolder {
+				#id : UUID [ 'acf168b0421a41788b50c96a8435784d' ],
+				#name : 'Extensions',
+				#iconID : '',
+				#actionItems : SortedCollection [
+					QACAction {
+						#id : UUID [ '2a2a06bd2c24496b9680412b33dbc215' ],
+						#name : 'Zoomable Roassal',
+						#iconID : '',
+						#expression : 'RTAbstractContextInteraction subclass: #RTZoomableViewContextInteraction\r\tinstanceVariableNames: \'\'\r\tclassVariableNames: \'\'\r\tpackage: \'Roassal2GT-Glamour-Roassal-Interaction\'.\r\r#RTZoomableViewContextInteraction asClass compile: \'initializeElement: aView\r\taView @ RTZoomableView\' classified: \'hooks\'.\r\t\rRTInteractiveViewContext compile: \'interactionsToBeRegistered\r\t^ Array with: RTSelectableElementsContextInteraction with: RTResizeableViewContextInteraction with: RTZoomableViewContextInteraction\' classified: \'hooks\''
+					}
+				]
+			},
+			QACAction {
+				#id : UUID [ '800b969e98874a5587da9b53bbe976be' ],
+				#name : 'Open .config/pharo',
+				#iconID : '',
+				#expression : ''
+			},
+			QACActionFolder {
+				#id : UUID [ '70e251b8d3be48609cda4d3b69f927d0' ],
+				#name : 'Opening folders',
+				#iconID : '',
+				#actionItems : SortedCollection [
+					QACAction {
+						#id : UUID [ '0bd08f7b18d147deb23f8323cbcedffd' ],
+						#name : 'Inspect directory',
+						#iconID : '',
+						#expression : '(UIManager default chooseDirectory) inspect'
+					},
+					QACAction {
+						#id : UUID [ '371076ddfc2342f7a3bf57acf493f4c8' ],
+						#name : 'Inspect file',
+						#iconID : '',
+						#expression : '(UIManager default chooseFileMatching: #(\'*\')) inspect'
+					},
+					QACAction {
+						#id : UUID [ '2f76be7a3d1b478ab1ce5980a50f8c45' ],
+						#name : 'open .config/pharo',
+						#iconID : '',
+						#expression : '(FileLocator preferences asFileReference / \'pharo\') inspect'
+					},
+					QACAction {
+						#id : UUID [ 'a059020b09754166969c675910cf22a0' ],
+						#name : 'open zenity playground',
+						#iconID : '',
+						#expression : '|page playground|\r(page := GTPlayPage new)\r\tsaveContent: \'(PipeableOSProcess command: \'\'zenity --file-selection\'\') output trim.\r\t\r(PipeableOSProcess command: \'\'zenity --file-selection --file-filter=\'\'\'\'XML files (xml, xmi, graphml) | *.xml *.xmi *.graphml\'\'\'\' --file-filter=\'\'\'\'All files | *\'\'\'\'\'\') output trim.\r\t\'.\r(playground := GTPlayground new)\r\topenOn: page.'
+					}
+				]
+			},
+			QACActionFolder {
+				#id : UUID [ 'fc75b7811ae448ff8ed7f149631ed368' ],
+				#name : 'QuickAccess i/e',
+				#iconID : '',
+				#actionItems : SortedCollection [
+					QACAction {
+						#id : UUID [ '4348947138d24bdfa3f051dd9084c0cf' ],
+						#name : 'Export',
+						#iconID : '',
+						#expression : '(FileLocator preferences asFileReference / \'pharo\' / \'5.0\' / \'quickaccess.qac\')\r\tensureDelete;\r\twriteStreamDo: [ :stream |\r\t\tstream nextPutAll: (STON toStringPretty: QACActionManager default)\r\t]'
+					},
+					QACAction {
+						#id : UUID [ '4b6d622d31f449e098a9261afd97ddad' ],
+						#name : 'Import',
+						#iconID : '',
+						#expression : '#QACActionManager asClass default\r\t\t\t\t\timport: ((FileLocator preferences asFileReference / \'pharo\' / \'5.0\' / \'quickaccess.qac\')).'
+					}
+				]
+			},
+			QACActionFolder {
+				#id : UUID [ 'c6eaf8d583a34fb8aac3780b917fecc4' ],
+				#name : 'Repositories',
+				#iconID : '',
+				#actionItems : SortedCollection [
+					QACAction {
+						#id : UUID [ '31416f4fe8e142bc8738687d51630db3' ],
+						#name : 'Cache QuickAccess',
+						#iconID : '',
+						#expression : '|source destination goSource goDestination sortBlock re fileBlocks files filesSorted destinationFiles|\r\"Based on Uko\'s script https://gist.github.com/Uko/6898022\"\r\r\"\rConfigurationOfQuickAccess methods select: [ :each |\r\teach sourceCode includesSubstring: \'spec repository: \'\'http://smalltalkhub.com/mc/TorstenBergmann/QuickAccess/main/\'\'\'.\r] thenDo: [ :each |\r\tConfigurationOfQuickAccess compile: (each sourceCode\r\t\tcopyReplaceAll: \'spec repository: \'\'http://smalltalkhub.com/mc/TorstenBergmann/QuickAccess/main/\'\'\'\r\t\twith: \'spec repository: \'\'/home/peter/prog/QuickAccess/repository\'\'\')\r].\r\"\r\r\"Get reference to the source repository\"\rsource := MCSmalltalkhubRepository allInstances detect: [ :each |\r\teach location includesSubstring: \'QuickAccess\'\r].\r\r\"Get reference to the target repository\"\rdestination := MCSubDirectoryRepository allInstances detect: [ :each |\r\teach location includesSubstring: \'QuickAccess/repository\'\r].\r\r\"Setup Gofer\"\rgoSource := Gofer new repository: source.\rgoDestination := Gofer new repository: destination.\r\r\"The packages obtained from Gofer are in random order... so some sorting has to be done so the git history is nicer.\"\rsortBlock := [ :x : y |\r\t(x second = y second) ifTrue: [ x fourth asNumber <= y fourth asNumber ]\r\tifFalse: [ x second < y second ].\r].\r\r\"My-Package-Author.Number\"\rre := \'^(.+)-([^-]+)\\.(\\d+)$\' asRegex.\rfileBlocks := source allVersionNames collect: [ :each | \r\tre search: each.\r\t{ \r\t\tre subexpression: 1. \"first - full string\"\r\t\tre subexpression: 2. \"second - package name\"\r\t\tre subexpression: 3. \"third - author name\"\r\t\tre subexpression: 4. \"fourth - commit name\"\r\t}\r].\rfilesSorted := fileBlocks asSortedCollection: sortBlock.\r\rfiles := (filesSorted collect: [ :x | x first ]) asArray.\r\r(goSource allResolved select: [ :resolved | files anySatisfy: [ :each |\r  resolved name = each ] ]) do: [ :each | goSource package: each packageName ].\r\rgoSource fetch. \"downloads all mcz on your computer\"\rdestinationFiles := destination allVersionNames. \"checks what files are already at destination\"\r\rfiles reject: [ :file | destinationFiles includes: file ] thenDo: [ :file |\r  goDestination version: file ]. \"selects only the mcz that are not yet at destination\"\r\rgoDestination push. \"sends everything to new repository\"'
+					},
+					QACAction {
+						#id : UUID [ '3f61b67d72fa493dae1309eaedd5c31b' ],
+						#name : 'Install GitFileTree project (OSProcess)',
+						#iconID : '',
+						#expression : '|projects ui layout|\rprojects := (FileLocator home asFileReference / \'prog\') children\r\tselect: [ :each | (each childrenMatching: \'repository\') isNotEmpty ]\r\tthenCollect: [ :each | each / \'repository\' ].\rprojects := projects sort: [ :a :b | a pathString asLowercase < b pathString asLowercase ].\r\rui := DynamicComposableModel new.\rui title: \'Install local GitFileTree project\'.\rui instantiateModels: #(projects DropListModel).\rui projects\r\titems: projects;\r\tdisplayBlock: [ :d | d parent basename ,\'/\', d basename ].\r\rlayout := SpecColumnLayout composed\r\tnewRow: [ :r | r add: #projects ] height: ComposableModel toolbarHeight;\r\tnewRow: [ :r | ].\r\t\r(ui openDialogWithSpecLayout: layout)\r\tokAction: [\r\t\t(Smalltalk hasClassNamed: #BaselineOfGitFileTree) ifFalse: [\r\t\t\t(CatalogProvider projectNamed: \'OSProcess\')\r\t\t\t\tinstallVersion: #stable.\r\t\t\t(CatalogProvider projectNamed: \'CommandShell\')\r\t\t\t\tinstallVersion: #stable.\r\t\t\t(CatalogProvider projectNamed: \'GitFileTree\')\r\t\t\t\tinstallVersion: #stable.\r\t\t].\r\t\tMetacello new\r\t\t\tbaseline: (((ui projects selectedItem childrenMatching: \'Baseline*.package\') first basename withoutPrefix: \'BaselineOf\') withoutSuffix: \'.package\');\r\t\t\trepository: \'gitfiletree://\', ui projects selectedItem pathString;\r\t\t\tload.\r\t]'
+					},
+					QACAction {
+						#id : UUID [ 'adf69a4e793248b2adae848f6d7b0d5d' ],
+						#name : 'Install GitFileTree project (OSSubprocess)',
+						#iconID : '',
+						#expression : '|projects ui layout|\rprojects := (FileLocator home asFileReference / \'prog\') children\r\tselect: [ :each | (each childrenMatching: \'repository\') isNotEmpty ]\r\tthenCollect: [ :each | each / \'repository\' ].\rprojects := projects sort: [ :a :b | a pathString asLowercase < b pathString asLowercase ].\r\rui := DynamicComposableModel new.\rui title: \'Install local GitFileTree project\'.\rui instantiateModels: #(projects DropListModel).\rui projects\r\titems: projects;\r\tdisplayBlock: [ :d | d parent basename ,\'/\', d basename ].\r\rlayout := SpecColumnLayout composed\r\tnewRow: [ :r | r add: #projects ] height: ComposableModel toolbarHeight;\r\tnewRow: [ :r | ].\r\t\r(ui openDialogWithSpecLayout: layout)\r\tokAction: [\r\t\t(Smalltalk hasClassNamed: #BaselineOfGitFileTree) ifFalse: [\r\t\t\t(CatalogProvider projectNamed: \'GitFileTree\')\r\t\t\t\tinstallVersion: #development.\r\t\t].\r\t\tMetacello new\r\t\t\tbaseline: (((ui projects selectedItem childrenMatching: \'Baseline*.package\') first basename withoutPrefix: \'BaselineOf\') withoutSuffix: \'.package\');\r\t\t\trepository: \'gitfiletree://\', ui projects selectedItem pathString;\r\t\t\tload.\r\t]'
+					},
+					QACAction {
+						#id : UUID [ '78f256a4cd8d4518bf0690ad5943277c' ],
+						#name : 'Install GitFileTree project (without GFT loading)',
+						#iconID : '',
+						#expression : '|projects ui layout|\rprojects := (FileLocator home asFileReference / \'prog\') children\r\tselect: [ :each | (each childrenMatching: \'repository\') isNotEmpty ]\r\tthenCollect: [ :each | each / \'repository\' ].\rprojects := projects sort: [ :a :b | a pathString asLowercase < b pathString asLowercase ].\r\rui := DynamicComposableModel new.\rui title: \'Install local GitFileTree project\'.\rui instantiateModels: #(projects DropListModel).\rui projects\r\titems: projects;\r\tdisplayBlock: [ :d | d parent basename ,\'/\', d basename ].\r\rlayout := SpecColumnLayout composed\r\tnewRow: [ :r | r add: #projects ] height: ComposableModel toolbarHeight;\r\tnewRow: [ :r | ].\r\t\r(ui openDialogWithSpecLayout: layout)\r\tokAction: [\r\t\tMetacello new\r\t\t\tbaseline: (((ui projects selectedItem childrenMatching: \'Baseline*.package\') first basename withoutPrefix: \'BaselineOf\') withoutSuffix: \'.package\');\r\t\t\trepository: \'gitfiletree://\', ui projects selectedItem pathString;\r\t\t\tload.\r\t]'
+					},
+					QACAction {
+						#id : UUID [ 'b931c0a779ea486c9cb7d25a77e4bd16' ],
+						#name : 'Kommit packages matching...',
+						#iconID : '',
+						#expression : '(UIManager default request: \'Package name pattern\' initialAnswer: \'*\') ifNotNil: [ :pat |\r\tKomitter openAndCommitToMonticelloWorkingCopiesFilteredBy: [ :workingCopy |\r\t\tworkingCopy package name matches: pat\r\t].\r].'
+					},
+					QACAction {
+						#id : UUID [ '3e2aa2e59a034df7b9abf383ffdbd698' ],
+						#name : 'Load OSProcess with GitFileTree',
+						#iconID : '',
+						#expression : '(Smalltalk hasClassNamed: #BaselineOfGitFileTree) ifFalse: [\r\t(CatalogProvider projectNamed: \'OSProcess\')\r\t\tinstallVersion: #stable.\r\t(CatalogProvider projectNamed: \'CommandShell\')\r\t\tinstallVersion: #stable.\r\t(CatalogProvider projectNamed: \'GitFileTree\')\r\t\tinstallVersion: #stable.\r].'
+					},
+					QACAction {
+						#id : UUID [ 'b811655c40d34a458efa106f2a31d4c7' ],
+						#name : 'Login Pharo60Inbox',
+						#iconID : '',
+						#expression : '|creds repo |\rcreds := (STON fromStream: (FileLocator preferences asFileReference / \'pharo\' / \'settings.json\') readStream) at: #smalltalkhub.\r\rrepo := (MCHttpRepository allInstances detect: [ :each | each location includesSubstring: \'Pharo60Inbox\' ]).\r\rrepo user: (creds at: #user).\rrepo password: (creds at: #password)'
+					},
+					QACAction {
+						#id : UUID [ '1a99a5b80e6f448783329ab1b6158e6d' ],
+						#name : 'Login Roassal2',
+						#iconID : '',
+						#expression : '|creds repo|\rcreds := (STON fromStream: (FileLocator preferences asFileReference / \'pharo\' / \'settings.json\') readStream) at: #smalltalkhub.\r\rrepo := (MCSmalltalkhubRepository allInstances detect: [ :each | each project = \'Roassal2\' ]).\r\rrepo user: (creds at: #user).\rrepo password: (creds at: #password)'
+					},
+					QACAction {
+						#id : UUID [ '2bdf67770192472a870c9daedf371715' ],
+						#name : 'Login STHub repo',
+						#iconID : '',
+						#expression : '|creds repo repos labels|\rcreds := (STON fromStream: (FileLocator preferences asFileReference / \'pharo\' / \'settings.json\') readStream) at: #smalltalkhub.\r\rrepos := MCSmalltalkhubRepository allInstances sorted: [ :a :b |\r\ta owner < b owner or: [ a owner = b owner and: [ a project < b project ] ]\r].\rlabels := repos collect: [ :each | each owner , \'/\', each project ].\r\rrepo := UIManager default\r\tchooseFrom: labels\r\tvalues: repos.\r\rrepo ifNotNil: [\r\trepo user: (creds at: #user).\r\trepo password: (creds at: #password)\r]'
+					},
+					QACAction {
+						#id : UUID [ '3adde9f276534d6b80d36a97669d5c56' ],
+						#name : 'Remove all unwanted repos',
+						#iconID : '',
+						#expression : '\"Nuking repos I don\'t care about, because they slow down gitfiletree repos and make a mess in Monticello Browser\r\rOf course I can always add it back by hand if the need arises.\r\"\r|group|\rgroup := MCRepositoryGroup default.\r\r\"All Moose repos\"\rgroup repositories select: [ :each |\r\t(each location includesSubstring: \'Moose\') and: [ \r\t\t(each isKindOf: MCCacheRepository) not ]\r] thenDo: [ :each |\r\tgroup removeRepository: each.\r].\r\r\"All Pharo repos\"\rgroup repositories select: [ :each |\r\t(each location includesSubstring: \'Pharo\') and: [ \r\t\t(each isKindOf: MCCacheRepository) not ]\r] thenDo: [ :each |\r\tgroup removeRepository: each\r].\r\r#(squeaksource Seaside SvenVan RoelTyper Phexample Magritte STON ShoreLine FastTable Neo ZincHTTPComponents) do: [ :str |\r\tgroup repositories select: [ :each |\r\t\t(each location includesSubstring: str) and: [ \r\t\t\t(each isKindOf: MCCacheRepository) not ]\r\t] thenDo: [ :each |\r\t\tgroup removeRepository: each\r\t].\t\r]'
+					}
+				]
+			},
+			QACActionFolder {
+				#id : UUID [ '03ca73e1248b4d7d8c500ba794eee59c' ],
+				#name : 'UI',
+				#iconID : '',
+				#actionItems : SortedCollection [
+					QACAction {
+						#id : UUID [ 'd2722fb608e6457f8cc52eeb7767c673' ],
+						#name : 'Colors',
+						#iconID : '',
+						#expression : '|v es|\rv := RTView new.\r\res := RTBox new\r\tsize: 150;\r\tcolor: #yourself;\r\telementsOn: (((Color class methods select: [ :each | each protocol = #defaults ] thenCollect: [ :each |\r\t\teach methodClass theNonMetaClass perform: each selector\r\t\t]) reject: #isArray) sorted: [:a :b |\r\t\t\t((0.241 * a red) + (0.691 * a green) + (0.068 * a blue)) sqrt\r\t\t\t<\r\t\t\t((0.241 * b red) + (0.691 * b green) + (0.068 * b blue)) sqrt\r\t\t\r\t\t]).\r\t\rv addAll: es.\res @ (RTLabeled new center).\r\rRTGridLayout new on: es.\r\rv inspect'
+					},
+					QACAction {
+						#id : UUID [ 'ad91b7c5f5314c52b634011673365fdf' ],
+						#name : 'Dark Theme',
+						#iconID : '',
+						#expression : 'Pharo3DarkTheme beCurrent.\r\rWorld\r\tbackgroundImage: (ImageReadWriter formFromFileNamed: ((FileLocator home asFileReference / \'Images\' / \'wp\') allFiles atRandom: (Random new seed: UUIDGenerator default makeUnixSeed)))\r\tlayout: #scaled.'
+					},
+					QACAction {
+						#id : UUID [ '91a2155f464c4ff0b2fb5f0ee59bc0fa' ],
+						#name : 'Light Theme',
+						#iconID : '',
+						#expression : 'Pharo3Theme beCurrent.\r\rWorld\r\tbackgroundImage: (ImageReadWriter formFromFileNamed: ((FileLocator home asFileReference / \'Images\' / \'wp\') allFiles atRandom: (Random new seed: UUIDGenerator default makeUnixSeed)))\r\tlayout: #scaled.'
+					},
+					QACAction {
+						#id : UUID [ '1692f97b3618404082ac69f00e546399' ],
+						#name : 'Random bing background',
+						#iconID : '',
+						#expression : '|urlbase image|\rurlbase := ((((STON fromString: ((ZnEasy\r\tget: \'https://www.bing.com/HPImageArchive.aspx?format=js&n=1\') contents)) at: #images) first) at: #urlbase).\rimage := ZnEasy getJpeg: \'https://www.bing.com\', urlbase, \'_1920x1080.jpg\'.\rWorld\r\tbackgroundImage: image\r\tlayout: #scaled.'
+					},
+					QACAction {
+						#id : UUID [ 'd20d0a28c4ee41fd92d0dd242b43d2ce' ],
+						#name : 'Random non-recent local image',
+						#iconID : '',
+						#expression : 'World\r\tbackgroundImage: (ImageReadWriter formFromFileNamed: ((FileLocator home asFileReference / \'Images\' / \'wp\') allFiles atRandom: (Random new seed: UUIDGenerator default makeUnixSeed)))\r\tlayout: #scaled.'
+					},
+					QACAction {
+						#id : UUID [ '16f5c66c1af345af92a306ec3c98116e' ],
+						#name : 'Random recent local image',
+						#iconID : '',
+						#expression : 'World\r\tbackgroundImage: (ImageReadWriter formFromFileNamed: ((FileLocator home asFileReference / \'Images\' / \'wp\' / \'2016\') allFiles atRandom: (Random new seed: UUIDGenerator default makeUnixSeed)))\r\tlayout: #scaled.'
+					},
+					QACAction {
+						#id : UUID [ '7f8169c474c043f09b1f812b43895cfe' ],
+						#name : 'Reopen Nautilus',
+						#iconID : '',
+						#expression : '(NautilusUI allInstances select: [ :each | each window owner = World ])\r\tdo: [ :each | |new|\r\t\tnew := each fullBrowse.\r\t\tnew ui window position: each window position.\r\t\teach close.\r\t].'
+					}
+				]
+			},
+			QACAction {
+				#id : UUID [ 'd7d7c3a2034849fd833cfe60fe053e45' ],
+				#name : 'Unnamed action',
+				#iconID : '',
+				#expression : ''
+			},
+			QACAction {
+				#id : UUID [ '46a1275c545340a8b5b5f188c834e5ef' ],
+				#name : 'Unnamed action',
+				#iconID : '',
+				#expression : ''
+			}
+		]
+	}
+}
