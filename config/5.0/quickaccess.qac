@@ -91,7 +91,7 @@ QACActionManager {
 						#id : UUID [ '4348947138d24bdfa3f051dd9084c0cf' ],
 						#name : 'Export',
 						#iconID : '',
-						#expression : '(FileLocator preferences asFileReference / \'pharo\' / \'5.0\' / \'quickaccess.qac\')\r\tensureDelete;\r\twriteStreamDo: [ :stream |\r\t\tstream nextPutAll: (STON toStringPretty: QACActionManager default)\r\t]'
+						#expression : '(FileLocator preferences asFileReference / \'pharo\' / \'5.0\' / \'quickaccess.qac\')\r\tensureDelete;\r\twriteStreamDo: [ :stream |\r\t\t(STON writer on: stream)\r\t\t\tprettyPrint: true;\r\t\t\tnewLine: String lf;\r\t\t\tnextPut: QACActionManager default\r].'
 					},
 					QACAction {
 						#id : UUID [ '4b6d622d31f449e098a9261afd97ddad' ],
