@@ -2,7 +2,9 @@ StartupPreferencesLoader default executeAtomicItems: {
 	StartupAction
 		name: 'Dark theme'
 		code: [ "Pharo3DarkTheme installFullTheme." ]
-		runOnce: true.
+		runOnce: true.
+
+
 	StartupAction
 		name: 'Blank lines'
 		code: [
@@ -10,7 +12,9 @@ StartupPreferencesLoader default executeAtomicItems: {
 			RBConfigurableFormatter retainBlankLinesBeforeComments: true."
 			NECPreferences popupShowWithShortcut: Character tab asKeyCombination.
 		]
-		runOnce: true.				StartupAction
+		runOnce: true.
+			
+	StartupAction
 		name: 'Allow method creation completion'
 		code: [
 			"https://pharo.fogbugz.com/f/cases/17261/When-creating-methods-the-name-can-no-longer-be-autocompleted"
