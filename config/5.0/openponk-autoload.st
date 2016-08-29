@@ -10,6 +10,18 @@ base := OSPlatform current isWindows
 	ifTrue: [ 'gitfiletree:///D:\OpenPonk\git\' ]
 	ifFalse: [ 'gitfiletree:///home/peter/prog/openponk/git/' ].
 
+OSPlatform current isUnix
+	ifTrue: [
+		(CatalogProvider projectNamed: 'OSProcess')
+			installVersion: #stable.
+		(CatalogProvider projectNamed: 'CommandShell')
+			installVersion: #stable.
+	].
+
+(CatalogProvider projectNamed: 'GitFileTree')
+	installVersion: #stable.
+
+
 "GitFileTree"
 Gofer new
 	url: 'http://smalltalkhub.com/mc/Pharo/MetaRepoForPharo50/main';
