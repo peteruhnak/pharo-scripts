@@ -207,13 +207,13 @@ QACActionManager {
 						#id : UUID [ 'd20d0a28c4ee41fd92d0dd242b43d2ce' ],
 						#name : 'Random non-recent local image',
 						#iconID : '',
-						#expression : 'World\r\tbackgroundImage: (ImageReadWriter formFromFileNamed: ((FileLocator home asFileReference / \'Images\' / \'wp\') allFiles atRandom: (Random new seed: UUIDGenerator default makeUnixSeed)))\r\tlayout: #scaled.'
+						#expression : '|home base|\rhome := FileLocator home asFileReference.\rbase := OSPlatform current isUnix\n\tifTrue: [ home / \'Images\' / \'wp\' ]\n\tifFalse: [ home / \'Pictures\' / \'Wallpapers\' ]. \rWorld\r\tbackgroundImage: (ImageReadWriter formFromFileNamed: (base allFiles atRandom: (Random new seed: UUIDGenerator default makeSeed)))\r\tlayout: #scaled.'
 					},
 					QACAction {
 						#id : UUID [ '16f5c66c1af345af92a306ec3c98116e' ],
 						#name : 'Random recent local image',
 						#iconID : '',
-						#expression : 'World\r\tbackgroundImage: (ImageReadWriter formFromFileNamed: ((FileLocator home asFileReference / \'Images\' / \'wp\' / \'2016\') allFiles atRandom: (Random new seed: UUIDGenerator default makeUnixSeed)))\r\tlayout: #scaled.'
+						#expression : '|home base|\rhome := FileLocator home asFileReference.\rbase := OSPlatform current isUnix\n\tifTrue: [ home / \'Images\' / \'wp\' ]\n\tifFalse: [ home / \'Pictures\' / \'Wallpapers\' ]. \rWorld\r\tbackgroundImage: (ImageReadWriter formFromFileNamed: ((base / \'2016\') allFiles atRandom: (Random new seed: UUIDGenerator default makeSeed)))\r\tlayout: #scaled.'
 					},
 					QACAction {
 						#id : UUID [ '7f8169c474c043f09b1f812b43895cfe' ],

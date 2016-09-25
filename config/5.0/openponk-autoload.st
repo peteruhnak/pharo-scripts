@@ -23,27 +23,29 @@ OSPlatform current isUnix
 
 
 "GitFileTree"
-Gofer new
+"Gofer new
 	url: 'http://smalltalkhub.com/mc/Pharo/MetaRepoForPharo50/main';
 	configurationOf: 'GitFileTree';
-	loadDevelopment.
+	loadDevelopment."
 
+OSPlatform current isUnix ifTrue: [
 "Lock file dialog, because it's preloaded"
 Metacello new
 	baseline: 'FileDialog';
 	repository: 'filetree:///home/peter/prog/file-dialog/repository';
 	lock.
+].
 
 
 "OpenPonk MetaModel"
 Metacello new
-	baseline: 'OpenPonkModel';
+	baseline: 'DynaCASEModel';
 	repository: base , 'openponk-model/repository';
 	lock.
 
 "OpenPonk"
 Metacello new
-	baseline: 'OpenPonk';
+	baseline: 'DynaCASE';
 	repository: base , 'openponk/repository';
 	lock.
 
