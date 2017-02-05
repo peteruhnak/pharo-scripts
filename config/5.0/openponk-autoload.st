@@ -4,29 +4,33 @@ StartupPreferencesLoader default executeAtomicItems: {
 		code: [
 
 
-((SmalltalkImage current shortImageName includesSubstring: 'OpenPonk') and: [ UIManager default proceed: 'Load OpenPonk via gitfiletree?' ]) ifTrue: [ [ |base|
+((SmalltalkImage current shortImageName includesSubstring: 'OpenPonk') and: [ UIManager default proceed: 'Load OpenPonk via gitfiletree?' ]) ifTrue: [ [ |base progBase|
+
+progBase := OSPlatform current isWindows
+	ifTrue: [ 'gitfiletree:///D:\prog\' ]
+	ifFalse: [ 1halt ].
 
 base := OSPlatform current isWindows
 	ifTrue: [ 'gitfiletree:///D:\OpenPonk\git\' ]
 	ifFalse: [ 'gitfiletree:///home/peter/prog/openponk/git/' ].
 
-OSPlatform current isUnix
-	ifTrue: [
+OSPlatform current isUnix ifTrue: [
 		(CatalogProvider projectNamed: 'OSProcess')
 			installVersion: #stable.
 		(CatalogProvider projectNamed: 'CommandShell')
 			installVersion: #stable.
-	].
+].
 
 (CatalogProvider projectNamed: 'GitFileTree')
 	installVersion: #stable.
 
-
-"GitFileTree"
-"Gofer new
-	url: 'http://smalltalkhub.com/mc/Pharo/MetaRepoForPharo50/main';
-	configurationOf: 'GitFileTree';
-	loadDevelopment."
+OSPlatform current isWindows ifTrue: [
+	"Use SocketShell instead of ProcessWrapper"
+	Metacello new
+		baseline: 'SocketShell';
+		repository: 'filetree:///D:\prog\pharo-shell-proxy/repository';
+		load.
+].
 
 OSPlatform current isUnix ifTrue: [
 "Lock file dialog, because it's preloaded"
@@ -84,6 +88,7 @@ Metacello new
 	load.
 
 UIManager default message: 'Loading complete'
+
 
 ] fork ]
 		]

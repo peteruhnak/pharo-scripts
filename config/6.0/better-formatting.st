@@ -1,6 +1,6 @@
 StartupPreferencesLoader default executeAtomicItems: {
 	StartupAction
-		name: 'Nicer Array autoformatting #(#a #b) -> #(a b)'
+		name: 'Array autoformatting: #(#a #b) -> #(a b)'
 		code: [
 
 BIConfigurableFormatter compile: 'visitLiteralNode: aLiteralNode
@@ -12,7 +12,7 @@ BIConfigurableFormatter compile: 'visitLiteralNode: aLiteralNode
 
 		]
 		runOnce: true.
-		
+
 	StartupAction
 		name: 'Needs Parenthesis {(#a -> #b)} -> {#a -> #b}'
 		code: [
@@ -21,13 +21,9 @@ BIConfigurableFormatter compile: (
 	(BIConfigurableFormatter>>#needsParenthesisFor:) sourceCode
 		copyReplaceAll: 'parent := aNode parent ifNil: [ ^ false ].'
 		with: 	'parent := aNode parent ifNil: [ ^ false ].
-	parent isArray ifTrue: [ ^ false ].'
+	parent isDynamicArray ifTrue: [ ^ false ].'
 ).
 
 		]
 		runOnce: true.
 }
-
-
-
-

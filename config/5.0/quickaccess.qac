@@ -189,13 +189,13 @@ QACActionManager {
 						#id : UUID [ 'ad91b7c5f5314c52b634011673365fdf' ],
 						#name : 'Dark Theme',
 						#iconID : '',
-						#expression : 'Pharo3DarkTheme beCurrent.\r\rWorld\r\tbackgroundImage: (ImageReadWriter formFromFileNamed: ((FileLocator home asFileReference / \'Images\' / \'wp\') allFiles atRandom: (Random new seed: UUIDGenerator default makeUnixSeed)))\r\tlayout: #scaled.'
+						#expression : 'Pharo3DarkTheme beCurrent.\r\rWorld\r\tbackgroundImage: (ImageReadWriter formFromFileNamed: ((FileLocator home asFileReference / \'Images\' / \'wp\') allFiles atRandom: (Random new seed: UUIDGenerator default makeUnixSeed)))\r\tlayout: #scaled.\r\r(Smalltalk hasClassNamed: #TRMorph) ifTrue: [ |clearNode clearLink paintNode paintLink|\rclearNode := (TRMorph>>#drawOn:) ast sendNodes detect: [ :each |\r\teach selector = #clear and: [\r\t\teach receiver name = #surface\r\t]\r].\r\rclearLink := MetaLink new\r\tmetaObject: [ :object |\r\t\t(object instVarNamed: #surface) clear: (object instVarNamed: #trachelCanvas) color.\r\t];\r\tselector: #value:;\r\targuments: #(object);\r\tcontrol: #instead.\r\rclearNode link: clearLink.\r\rpaintNode := (TRMorph>>#drawOn:) ast sendNodes detect: [ :each |\r\teach selector = #hasBeenFreed and: [\r\t\teach receiver name = #surface\r\t]\r].\r\rpaintLink := MetaLink new\r\tmetaObject: [ :object | |surface|\r\t\tsurface := (object instVarNamed: #surface).\r\t\tsurface drawDuring: [ :cs |\r\t\t\tcs paintMode restoreAfter: [\r\t\t\t\t\tcs setPaint: Color white.\r\t\t\t\t\tcs paintMode difference.\r\t\t\t\t\tcs drawShape: (0 @ 0 extent: surface extent)\r\t\t\t]\r\t\t].\r\t];\r\tselector: #value:;\r\targuments: #(object);\r\tcontrol: #after.\r\rpaintNode link: paintLink.\r]'
 					},
 					QACAction {
 						#id : UUID [ '91a2155f464c4ff0b2fb5f0ee59bc0fa' ],
 						#name : 'Light Theme',
 						#iconID : '',
-						#expression : 'Pharo3Theme beCurrent.\r\rWorld\r\tbackgroundImage: (ImageReadWriter formFromFileNamed: ((FileLocator home asFileReference / \'Images\' / \'wp\') allFiles atRandom: (Random new seed: UUIDGenerator default makeUnixSeed)))\r\tlayout: #scaled.'
+						#expression : 'Pharo3Theme beCurrent.\r\rWorld\r\tbackgroundImage: (ImageReadWriter formFromFileNamed: ((FileLocator home asFileReference / \'Images\' / \'wp\') allFiles atRandom: (Random new seed: UUIDGenerator default makeUnixSeed)))\r\tlayout: #scaled.\r\r(Smalltalk hasClassNamed: #TRMorph) ifTrue: [ |clearNode clearLink paintNode paintLink|\rclearNode := (TRMorph>>#drawOn:) ast sendNodes detect: [ :each |\r\teach selector = #clear and: [\r\t\teach receiver name = #surface\r\t]\r].\r\rclearNode links ifNotEmpty: [ :l | l anyOne uninstall ].\r\rpaintNode := (TRMorph>>#drawOn:) ast sendNodes detect: [ :each |\r\teach selector = #hasBeenFreed and: [\r\t\teach receiver name = #surface\r\t]\r].\r\rclearLink links ifNotEmpty: [ :l | l anyOne uninstall ].\r]'
 					},
 					QACAction {
 						#id : UUID [ '1692f97b3618404082ac69f00e546399' ],
@@ -204,10 +204,16 @@ QACActionManager {
 						#expression : '|urlbase image|\rurlbase := ((((STON fromString: ((ZnEasy\r\tget: \'https://www.bing.com/HPImageArchive.aspx?format=js&n=1\') contents)) at: #images) first) at: #urlbase).\rimage := ZnEasy getJpeg: \'https://www.bing.com\', urlbase, \'_1920x1080.jpg\'.\rWorld\r\tbackgroundImage: image\r\tlayout: #scaled.'
 					},
 					QACAction {
+						#id : UUID [ '41e37caea9bc6f478b0c31d313441994' ],
+						#name : 'Random dual image',
+						#iconID : '',
+						#expression : '|home base|\rhome := FileLocator home asFileReference.\rbase := home / \'Pictures\' / \'Dual\'. \rWorld\r\tbackgroundImage: (ImageReadWriter formFromFileNamed: (base allFiles atRandom))\r\tlayout: #scaled.'
+					},
+					QACAction {
 						#id : UUID [ 'd20d0a28c4ee41fd92d0dd242b43d2ce' ],
 						#name : 'Random non-recent local image',
 						#iconID : '',
-						#expression : '|home base|\rhome := FileLocator home asFileReference.\rbase := OSPlatform current isUnix\n\tifTrue: [ home / \'Images\' / \'wp\' ]\n\tifFalse: [ home / \'Pictures\' / \'Wallpapers\' ]. \rWorld\r\tbackgroundImage: (ImageReadWriter formFromFileNamed: (base allFiles atRandom: (Random new seed: UUIDGenerator default makeSeed)))\r\tlayout: #scaled.'
+						#expression : '|home base|\rhome := FileLocator home asFileReference.\rbase := OSPlatform current isUnix\n\tifTrue: [ home / \'Images\' / \'wp\' ]\n\tifFalse: [ home / \'Pictures\' / \'Wallpapers\' ]. \rWorld\r\tbackgroundImage: (ImageReadWriter formFromFileNamed: (base allFiles atRandom))\r\tlayout: #scaled.'
 					},
 					QACAction {
 						#id : UUID [ '16f5c66c1af345af92a306ec3c98116e' ],

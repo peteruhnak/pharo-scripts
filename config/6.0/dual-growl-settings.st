@@ -1,8 +1,9 @@
 StartupPreferencesLoader default executeAtomicItems: {
 	StartupAction
-		name: 'Empty template'
+		name: 'Show Growl in bottom right corner'
 		code: [
 
+GrowlMorph position: #bottomRight
 
 		]
 		runOnce: true.

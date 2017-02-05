@@ -1,7 +1,11 @@
 StartupPreferencesLoader default executeAtomicItems: {
 	StartupAction
-		name: 'Empty template'
+		name: '60-ish FPS'
 		code: [
+
+"The default is 20, which is 50 FPS"
+WorldState MinCycleLapse: 16.
+
 
 
 		]

@@ -7,7 +7,7 @@ OSPlatform current isWindows
 	ifTrue: [
 		Metacello new
 			baseline: 'FileDialog';
-			repository: 'github://peteruhnak/file-dialog/repository';
+			repository: 'filetree:///D:/prog/file-dialog/repository';
 			load.
 	] ifFalse: [
 		Metacello new
