@@ -43,13 +43,13 @@ Metacello new
 
 "OpenPonk MetaModel"
 Metacello new
-	baseline: 'DynaCASEModel';
+	baseline: 'OpenPonkModel';
 	repository: base , 'openponk-model/repository';
 	lock.
 
 "OpenPonk"
 Metacello new
-	baseline: 'DynaCASE';
+	baseline: 'OpenPonk';
 	repository: base , 'openponk/repository';
 	lock.
 
@@ -81,11 +81,20 @@ Metacello new
 	load.
 
 "DEMO Editor"
-Metacello new
+"Metacello new
 	baseline: 'DemoEditor';
 	repository: base , 'demo-editor/repository';
 	onWarningLog;
+	load."
+
+
+"NSP Editor"
+Metacello new
+	baseline: 'NSPEditor';
+	repository: base , 'nsp-editor/repository';
+	onWarningLog;
 	load.
+
 
 UIManager default message: 'Loading complete'
 

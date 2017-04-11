@@ -1,3 +1,4 @@
 settings.json
 templateCache/
 system-settings.ston
+org.pharo.*
