@@ -20,7 +20,9 @@ OSPlatform current isWindows
 
 	OSPlatform current isWindows
 	ifTrue: [
-		FDFileDialog addBookmark: FileLocator D asFileReference / 'prog'
+		FDFileDialog addBookmark: FileLocator D asFileReference / 'prog'.
+		FDFileDialog addBookmark: FileLocator D asFileReference / 'pharo-prog'.
+		FDFileDialog addBookmark: FileLocator D asFileReference / 'OpenPonk' / 'git'.
 	] ifFalse: [
 		FDFileDialog addBookmark: FileLocator home asFileReference / 'prog'
 	]
