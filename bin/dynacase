@@ -1,9 +1,0 @@
-#!/bin/sh
-
-folder="$(find ~/.local/share/Pharo/images/ -maxdepth 1 -name 'DynaCASE*Moose*' \
-	| sort -V \
-	| tail -n 1)"
-name="$(basename "$folder")"
-image="$folder/$name.image"
-
-pharo-vm "$image"
