@@ -3,6 +3,8 @@ StartupPreferencesLoader default executeAtomicItems: {
 		name: 'Add entry to Nautilus package menu to open Icerberg on the package'
 		code: [
 
+(Smalltalk hasClassNamed: #IceGlamourSynchronizer) ifTrue: [
+
 IceGlamourSynchronizer class compile: 'packagesMenu: aBuilder
 	<nautilusGlobalPackageMenu>
 	| target packageName iceRepository |
@@ -18,7 +20,7 @@ IceGlamourSynchronizer class compile: 'packagesMenu: aBuilder
 		help: ''Open an Iceberg synchronizer on the first selected package'';
 		icon: IceRepositoriesBrowser icon' classified: 'menu'
 
-
+]
 		]
 		runOnce: true.	
 }

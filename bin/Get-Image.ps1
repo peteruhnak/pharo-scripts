@@ -2,6 +2,8 @@ param (
     [String]$Version
 )
 
+$LatestBaseline = '70'
+
 
 function Image-Url($Baseline, $Version) {
     return "http://files.pharo.org/image/$Baseline/$Version.zip"
@@ -18,17 +20,11 @@ function Download-Image($Baseline, $Version)
 }
 
 
-function Download-Latest-Image()
-{
-    Download-Image -Baseline '70' -Version 'latest'
-}
-
-
 function Download-Image-Version($VersionDesc)
 {
     $Version = 'latest'
     If ($VersionDesc.Length -eq 0) {
-        $Baseline = '70'
+        $Baseline = $LatestBaseline
     } ElseIf ($VersionDesc.Length -eq 1) {
         $Baseline = "${VersionDesc}0"
     } ElseIf ($VersionDesc.Length -eq 2) {
