@@ -3,6 +3,7 @@ StartupPreferencesLoader default executeAtomicItems: {
 		name: 'Install & use FileDialog'
 		code: [
 
+(Smalltalk hasClassNamed: #BaselineOfFileDialog) ifFalse: [
 OSPlatform current isWindows
 	ifTrue: [
 		Metacello new
@@ -26,6 +27,8 @@ OSPlatform current isWindows
 	] ifFalse: [
 		FDFileDialog addBookmark: FileLocator home asFileReference / 'prog'
 	]
+
+]
 
 		]
 		runOnce: true.
