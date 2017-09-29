@@ -228,6 +228,12 @@ QACActionManager {
 						#expression : 'Pharo3Theme beCurrent.\r\r"World\r\tbackgroundImage: (ImageReadWriter formFromFileNamed: ((FileLocator home asFileReference / \'Images\' / \'wp\') allFiles atRandom: (Random new seed: UUIDGenerator default makeUnixSeed)))\r\tlayout: #scaled."\r\t\r(Smalltalk hasClassNamed: #XMLDocumentHighlightDefaults) ifTrue: [ XMLDocumentHighlightDefaults initialize ].\r"\r(Smalltalk hasClassNamed: #TRMorph) ifTrue: [ |clearNode clearLink paintNode paintLink|\rclearNode := (TRMorph>>#drawOn:) ast sendNodes detect: [ :each |\r\teach selector = #clear and: [\r\t\teach receiver name = #surface\r\t]\r].\r\rclearNode links ifNotEmpty: [ :l | l anyOne uninstall ].\r\rpaintNode := (TRMorph>>#drawOn:) ast sendNodes detect: [ :each |\r\teach selector = #hasBeenFreed and: [\r\t\teach receiver name = #surface\r\t]\r].\r\rclearLink links ifNotEmpty: [ :l | l anyOne uninstall ].\r]"'
 					},
 					QACAction {
+						#id : UUID [ '3b45396ca1150d00b693653a04adbfaa' ],
+						#name : 'Metal Theme',
+						#iconID : '',
+						#expression : '(Smalltalk hasClassNamed: #DarkMetalTheme)\r\tifFalse: [ \r\t\tMetacello new \r\t\t\trepository: \'github://estebanlm/themes/mc\';\r\t\t\tbaseline: \'Themes\';\r\t\t\tload.\r\t].\r\r#DarkMetalTheme asClass beCurrent.'
+					},
+					QACAction {
 						#id : UUID [ '5a4c388919abce4d849dc16fa97992ca' ],
 						#name : 'OpenPonk logo',
 						#iconID : '',
