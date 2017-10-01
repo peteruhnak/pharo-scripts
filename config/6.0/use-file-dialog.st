@@ -17,6 +17,8 @@ OSPlatform current isWindows
 			load.
 	].
 
+	MetacelloProjectRegistration registry baselineRegistry removeKey: 'BaselineOfFileDialog' ifAbsent: [  ].
+
 	FDMorphicUIManager new beDefault.
 
 	OSPlatform current isWindows
