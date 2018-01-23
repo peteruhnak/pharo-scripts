@@ -11,8 +11,8 @@ conf := (STON fromStream: (FileLocator preferences asFileReference / 'pharo' / '
 Iceberg enableMetacelloIntegration: true.
 
 IceRepository
-	shareRepositoriesBetweenImages: true;
-	sharedRepositoriesLocationString:'D:\tmp\ice'.
+	shareRepositoriesBetweenImages: false"true;
+	sharedRepositoriesLocationString:'D:\tmp\ice'".
 
 IceCredentialsProvider useCustomSsh: true.
 IceCredentialsProvider sshCredentials
