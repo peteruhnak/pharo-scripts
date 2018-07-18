@@ -9,7 +9,7 @@ rewriter := RBParseTreeRewriter new
 	replace: 's nextPutAll: text text asString'
 	with: 's wantsLineEndConversion: true; nextPutAll: text text asString'.
 
-tree := (FileReference>>#gtInspectorStScriptIn:) parseTree.
+tree := (AbstractFileReference>>#gtInspectorStScriptIn:) parseTree.
 rewriter executeTree: tree.
 tree methodClass compile: rewriter tree formattedCode.
 

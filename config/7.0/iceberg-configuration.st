@@ -10,9 +10,9 @@ conf := (STON fromStream: (FileLocator preferences asFileReference / 'pharo' / '
 
 Iceberg enableMetacelloIntegration: true.
 
-IceRepository
-	shareRepositoriesBetweenImages: true;
-	sharedRepositoriesLocationString:'D:\tmp\ice'.
+IceLibgitRepository shareRepositoriesBetweenImages: false.
+
+IceLibgitRepository defaultCodeSubdirectory: 'repository'.
 
 IceCredentialsProvider useCustomSsh: true.
 IceCredentialsProvider sshCredentials
@@ -20,9 +20,12 @@ IceCredentialsProvider sshCredentials
 	privateKey: ((conf at: 'sshCredentials') at: 'privateKey');
 	keyPassphrase: ((conf at: 'sshCredentials') at: 'keyPassphrase').
 
-IceCredentialsProvider plaintextCredentials
-	username: ((conf at: 'plaintextCredentials') at: 'username');
-	password: ((conf at: 'plaintextCredentials') at: 'password')
+IceCredentialStore current
+	storeCredential: (
+		IcePlaintextCredentials new
+			username: ((conf at: 'plaintextCredentials') at: 'username');
+			password: ((conf at: 'plaintextCredentials') at: 'password'))
+	forHostname: 'github.com'.
 
 ]
 		]

@@ -199,6 +199,19 @@ QACActionManager {
 				]
 			},
 			QACActionFolder {
+				#id : UUID [ '4f4913d290220d00ab57bb25030d46fb' ],
+				#name : 'Settings',
+				#iconID : '',
+				#actionItems : SortedCollection [
+					QACAction {
+						#id : UUID [ '9f9166d290220d00ab588d90030d46fb' ],
+						#name : 'NSP+OP dev',
+						#iconID : '',
+						#expression : 'Sentry enabled: false.\rNSPDeveloperSettings isDevelopmentMode: true.\rOPWorkbench isDevelopmentMode: true.'
+					}
+				]
+			},
+			QACActionFolder {
 				#id : UUID [ '03ca73e1248b4d7d8c500ba794eee59c' ],
 				#name : 'UI',
 				#iconID : '',
@@ -280,6 +293,18 @@ QACActionManager {
 						#name : 'Standard Nautilus size',
 						#iconID : '',
 						#expression : 'NautilusWindow compile: \'initialExtent\r\t^ 850@620\'.\r\r(QANautilusPluginMorph>>#initialize) sourceCode\r\tcopyReplaceAll: \'38\' with: \'51\'.'
+					},
+					QACAction {
+						#id : UUID [ '38b4535bbe230d00984a0f0a01ed2a9b' ],
+						#name : 'Text Logo',
+						#iconID : '',
+						#expression : '|font color string textMorph|\rfont := (LogicalFont familyName: \'Source Sans Pro\' pointSize: 30).\rcolor := Color fromHexString: \'3196D3\'.\r\rstring := UIManager default request: \'Text\'.\r\rtextMorph := (string asText\r\taddAttribute: (TextFontReference toFont: font);\r\taddAttribute: TextEmphasis bold;\r\taddAttribute: (TextColor new color: color);\r\tyourself) asMorph.\r\t\rPolymorphSystemSettings setDesktopLogoWith: textMorph.\r\rPolymorphSystemSettings desktopLogo position: 5 @ 0.'
+					},
+					QACAction {
+						#id : UUID [ 'e9711d69ad240d00a2f9c9ca00e06915' ],
+						#name : 'Text Logo (top offset)',
+						#iconID : '',
+						#expression : '|font color string textMorph|\rfont := (LogicalFont familyName: \'Source Sans Pro\' pointSize: 30).\rcolor := Color fromHexString: \'3196D3\'.\r\rstring := UIManager default request: \'Text\'.\r\rtextMorph := (string asText\r\taddAttribute: (TextFontReference toFont: font);\r\taddAttribute: TextEmphasis bold;\r\taddAttribute: (TextColor new color: color);\r\tyourself) asMorph.\r\t\rPolymorphSystemSettings setDesktopLogoWith: textMorph.\r\rPolymorphSystemSettings desktopLogo position: 0 @ 20.'
 					}
 				]
 			},
