@@ -6,13 +6,11 @@ StartupPreferencesLoader default executeAtomicItems: {
 |conf|
 conf := (STON fromStream: (FileLocator preferences asFileReference / 'pharo' / 'settings.json') readStream) at: #iceberg.
 
-(Smalltalk hasClassNamed: #Iceberg) ifTrue: [
+(IceRepository respondsTo: #shareRepositoriesBetweenImages:) ifTrue: [
 
 Iceberg enableMetacelloIntegration: true.
 
-IceRepository
-	shareRepositoriesBetweenImages: false"true;
-	sharedRepositoriesLocationString:'D:\tmp\ice'".
+IceRepository shareRepositoriesBetweenImages: false.
 
 IceCredentialsProvider useCustomSsh: true.
 IceCredentialsProvider sshCredentials

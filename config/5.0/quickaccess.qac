@@ -29,6 +29,12 @@ QACActionManager {
 						#name : 'Enable Halt once',
 						#iconID : '',
 						#expression : 'Halt enableHaltOnce'
+					},
+					QACAction {
+						#id : UUID [ '4c2919cd94320d008d7010a708c1738a' ],
+						#name : 'Inspect MemoryLogger',
+						#iconID : '',
+						#expression : 'MemoryLogger instance inspect'
 					}
 				]
 			},
@@ -171,6 +177,12 @@ QACActionManager {
 						#name : 'Login STHub repo',
 						#iconID : '',
 						#expression : '|creds repo repos labels|\rcreds := (STON fromStream: (FileLocator preferences asFileReference / \'pharo\' / \'settings.json\') readStream) at: #smalltalkhub.\r\rrepos := MCSmalltalkhubRepository allInstances sorted: [ :a :b |\r\ta owner < b owner or: [ a owner = b owner and: [ a project < b project ] ]\r].\rlabels := repos collect: [ :each | each owner , \'/\', each project ].\r\rrepo := UIManager default\r\tchooseFrom: labels\r\tvalues: repos.\r\rrepo ifNotNil: [\r\trepo user: (creds at: #user).\r\trepo password: (creds at: #password)\r]'
+					},
+					QACAction {
+						#id : UUID [ 'efac51c3eb310d00ac0dc71802e5f4df' ],
+						#name : 'Make backups',
+						#iconID : '',
+						#expression : 'WorldState class compile: \'saveSession\r\tCursor write\r\t\tshowWhile: [ Smalltalk snapshot: true andQuit: false.\r\t\t\tSmalltalk\r\t\t\t\tbackupTo:\r\t\t\t\t\t\'\'backup/\'\' , DateAndTime now asFileNameCompatibleString , \'\'/\'\'\r\t\t\t\t\t\t, Smalltalk imageFile basenameWithoutExtension ]\''
 					},
 					QACAction {
 						#id : UUID [ 'aeeae04c63080d00900f5fd100306168' ],

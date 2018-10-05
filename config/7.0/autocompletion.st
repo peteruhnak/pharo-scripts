@@ -11,7 +11,7 @@ StartupPreferencesLoader default executeAtomicItems: {
 		name: 'Allow method creation completion'
 		code: [
 			"https://pharo.fogbugz.com/f/cases/17261/When-creating-methods-the-name-can-no-longer-be-autocompleted"
-			NECPreferences overrideModel: true.
+			"NECPreferences overrideModel: true."
 		]
 		runOnce: true.
 
